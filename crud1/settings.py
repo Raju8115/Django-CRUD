@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://openshift-project-git-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com',
+    'https://django-crud-git-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com',
 ]
 
 CSRF_COOKIE_SECURE = False  
