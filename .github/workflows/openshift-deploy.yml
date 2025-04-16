@@ -1,0 +1,15 @@
+name: OpenShift Build Trigger
+
+on:
+  push:
+    branches:
+      - main  # or your deployment branch
+
+jobs:
+  trigger-openshift-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger OpenShift Build via Webhook
+      run: |
+        curl -X POST ${{ secrets.OPENSHIFT_WEBHOOK_URL }}
