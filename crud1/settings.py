@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +26,13 @@ SECRET_KEY = 'django-insecure-a#2akqu-%b^q^pwbs!o_d86ryhl7$yjvyprucis_sahgk)674o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://openshift-project-git-raju-a-dev.apps.rm3.7wse.p1.openshiftapps.com',
+]
+
+CSRF_COOKIE_SECURE = False  
 
 # Application definition
 
@@ -51,6 +57,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'crud1.urls'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # or 'postgresql', 'sqlite3', etc.
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '3306'),
+    }
+}
 
 TEMPLATES = [
     {
