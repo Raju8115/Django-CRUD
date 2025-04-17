@@ -1,15 +1,28 @@
-name: OpenShift Build Trigger
+name: Trigger OpenShift Build
 
 on:
   push:
     branches:
-      - main  # or your deployment branch
+      - main
 
 jobs:
-  trigger-openshift-build:
+  start-build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Trigger OpenShift Build via Webhook
-      run: |
-        curl -X POST ${{ secrets.OPENSHIFT_WEBHOOK_URL }}
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install OpenShift CLI (oc)
+        run: |
+          curl -LO "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz"
+          tar -xvf openshift-client-linux.tar.gz
+          sudo mv oc /usr/local/bin/
+
+      - name: Login to OpenShift
+        run: |
+          oc login ${{ secrets.OCP_SERVER }} --token=${{ secrets.OCP_TOKEN }} --insecure-skip-tls-verify=true
+
+      - name: Trigger Build
+        run: |
+          oc start-build django-crud-git -n raju-a-dev --wait
